@@ -1,0 +1,6 @@
+<div>
+  <button (click)="startGame()">Start</button>
+  <div *ngFor="let row of game.table.fields" class="row">
+    <div *ngFor="let col of row" class="border rounded field" [style.background-color]="col.color"></div>
+  </div>
+</div>

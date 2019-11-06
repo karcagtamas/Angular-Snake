@@ -8,6 +8,7 @@ export default class Game {
   seconds: number;
   difficulty: number;
   isOn: boolean;
+  reseted: boolean;
 
   constructor() {
     this.point = 0;
@@ -17,5 +18,6 @@ export default class Game {
     this.difficulty = 0;
     this.isOn = false;
     this.table = new Table();
+    this.reseted = true;
   }
 }

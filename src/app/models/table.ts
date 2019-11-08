@@ -12,9 +12,9 @@ export default class Table {
   background: string;
 
   constructor() {
-    this.rows = 50;
-    this.cols = 50;
-    this.background = '#000000';
+    this.rows = 30;
+    this.cols = 30;
+    this.background = '#eeebf2';
     this.fields = [];
     for (let i = 0; i < this.rows; i++) {
       const row: Field[] = [];
@@ -23,7 +23,7 @@ export default class Table {
       }
       this.fields.push(row);
     }
-    this.countOfFoods = 10;
+    this.countOfFoods = 5;
     this.foods = [];
     for (let i = 0; i < this.countOfFoods; i++) {
       const rnd = Math.floor(Math.random() * 3);

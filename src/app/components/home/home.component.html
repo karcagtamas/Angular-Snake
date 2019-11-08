@@ -1,12 +1,21 @@
-<div>
-  <div>
-    Pontok: {{game.snake.length}}
-    Idő: {{ms | seconds}}
+<div class="home">
+  <div class="stat">
+    Pontok: {{ game.snake.length }} Idő: {{ ms | seconds }}
   </div>
-  <button (click)="startGame()" [disabled]="!game.reseted">Start</button>
-  <button (click)="resetGame()" [disabled]="game.isOn">Reset</button>
-  <div>{{alert}}</div>
-  <div *ngFor="let row of game.table.fields" class="row">
-    <div *ngFor="let col of row" class="border rounded field" [style.background-color]="col.color"></div>
+  <div class="buttons">
+    <button (click)="startGame()" [disabled]="!game.reseted">Start</button>
+    <button (click)="resetGame()" [disabled]="game.isOn">Reset</button>
+  </div>
+  <div>{{ alert }}</div>
+  <div class="frame">
+    <div class="table">
+      <div *ngFor="let row of game.table.fields" class="row">
+        <div
+          *ngFor="let col of row"
+          class="border field"
+          [style.background-color]="col.color"
+        ></div>
+      </div>
+    </div>
   </div>
 </div>

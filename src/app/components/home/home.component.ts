@@ -4,6 +4,8 @@ import Snake from 'src/app/models/snake';
 import { Direction } from 'src/app/models/directions';
 import Food from 'src/app/models/food';
 import { Error } from 'src/app/models/error';
+import { FOODS } from 'src/app/models/foodTypes';
+import Point from 'src/app/models/point';
 
 @Component({
   selector: 'app-home',
@@ -150,6 +152,9 @@ export class HomeComponent implements OnInit {
       this.game.snake.body.splice(this.game.snake.body.length - 1, 1);
       this.writeOut();
       this.checkFood(this.game.snake.head.x, this.game.snake.head.y);
+      if (this.checkCollapse()) {
+        this.stopGame('You ran into yourself!');
+      }
     }
   }
 
@@ -167,13 +172,56 @@ export class HomeComponent implements OnInit {
             this.game.snake.body[this.game.snake.body.length - 1]
           );
         }
-        console.log('length', this.game.snake.length);
-        console.log('body', this.game.snake.body.length);
-        console.log(this.game.snake.body);
-        console.log(this.game.snake.head);
         this.game.table.foods = this.game.table.foods.filter(f => f !== food);
+        this.game.table.foods.push(this.genFood(false, false));
+        if (this.game.snake.length % 5 === 0) {
+          this.game.table.foods.push(this.genFood(false, true));
+        }
       }
     }
     return;
+  }
+
+  genFood(canBeKiller: boolean, beKiller: boolean): Food {
+    const rnd = Math.floor(Math.random() * 3);
+    let food: Food;
+    if (beKiller) {
+      food = { ...FOODS.killer };
+    } else {
+      switch (rnd) {
+        case 0:
+          food = { ...FOODS.normal };
+          break;
+        case 1:
+          food = { ...FOODS.higher };
+          break;
+        case 2:
+          food = { ...FOODS.killer };
+          break;
+      }
+      if (food.isKill && !canBeKiller) {
+        food = { ...FOODS.normal };
+      }
+    }
+    let x = -1;
+    let y = -1;
+    do {
+      x = Math.floor(Math.random() * this.game.table.cols);
+      y = Math.floor(Math.random() * this.game.table.rows);
+    } while (
+      this.game.table.fields[x][y].color !== this.game.table.background ||
+      (x === 5 && y >= 5 && y <= 9)
+    );
+    food.position = new Point(x, y);
+    return food;
+  }
+
+  checkCollapse(): boolean {
+    for (const i of this.game.snake.body) {
+      if (this.game.snake.head.x === i.x && this.game.snake.head.y === i.y) {
+        return true;
+      }
+    }
+    return false;
   }
 }

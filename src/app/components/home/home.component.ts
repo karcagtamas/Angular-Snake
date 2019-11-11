@@ -6,6 +6,7 @@ import Food from 'src/app/models/food';
 import { Error } from 'src/app/models/error';
 import { FOODS } from 'src/app/models/foodTypes';
 import Point from 'src/app/models/point';
+import Table from 'src/app/models/table';
 
 @Component({
   selector: 'app-home',
@@ -14,53 +15,64 @@ import Point from 'src/app/models/point';
 })
 export class HomeComponent implements OnInit {
   game: Game = new Game();
+  rows = 10;
+  cols = 10;
+  countOfFoods = 5;
+  backgroundColor = '#eeebf2';
+  headColor = '#FF5252';
+  bodyColor = '#000000';
+  foods = FOODS;
   ms = 0;
   alert = '';
   interval;
   @HostListener('document:keypress', ['$event']) handleKeyPress(
     event: KeyboardEvent
   ) {
-    switch (event.key) {
-      case 'w':
-        if (this.game.snake.direction !== Direction.DOWN) {
-          this.game.snake.direction = Direction.UP;
-        } else {
-          this.stopGame(Error.BACK_COLLAPSE);
-        }
-        break;
-      case 's':
-        if (this.game.snake.direction !== Direction.UP) {
-          this.game.snake.direction = Direction.DOWN;
-        } else {
-          this.stopGame(Error.BACK_COLLAPSE);
-        }
-        break;
-      case 'a':
-        if (this.game.snake.direction !== Direction.RIGHT) {
-          this.game.snake.direction = Direction.LEFT;
-        } else {
-          this.stopGame(Error.BACK_COLLAPSE);
-        }
-        break;
-      case 'd':
-        if (this.game.snake.direction !== Direction.LEFT) {
-          this.game.snake.direction = Direction.RIGHT;
-        } else {
-          this.stopGame(Error.BACK_COLLAPSE);
-        }
-        break;
+    if (this.game.isOn) {
+      switch (event.key) {
+        case 'w':
+          if (this.game.snake.direction !== Direction.DOWN) {
+            this.game.snake.direction = Direction.UP;
+          } else {
+            this.stopGame(Error.BACK_COLLAPSE);
+          }
+          break;
+        case 's':
+          if (this.game.snake.direction !== Direction.UP) {
+            this.game.snake.direction = Direction.DOWN;
+          } else {
+            this.stopGame(Error.BACK_COLLAPSE);
+          }
+          break;
+        case 'a':
+          if (this.game.snake.direction !== Direction.RIGHT) {
+            this.game.snake.direction = Direction.LEFT;
+          } else {
+            this.stopGame(Error.BACK_COLLAPSE);
+          }
+          break;
+        case 'd':
+          if (this.game.snake.direction !== Direction.LEFT) {
+            this.game.snake.direction = Direction.RIGHT;
+          } else {
+            this.stopGame(Error.BACK_COLLAPSE);
+          }
+          break;
+      }
     }
   }
 
   constructor() {}
 
   ngOnInit() {
+    this.game = new Game();
     this.setSnake();
   }
 
   setSnake() {
-    this.game = new Game();
-    this.game.snake = new Snake();
+    const x = Math.floor(this.rows / 2);
+    const y = Math.floor(this.cols / 2);
+    this.game.snake = new Snake(x, y, this.headColor, this.bodyColor);
     const snake = this.game.snake;
     this.game.table.fields[snake.head.x][snake.head.y].color = snake.headColor;
     for (const i of snake.body) {
@@ -71,6 +83,7 @@ export class HomeComponent implements OnInit {
   startGame() {
     this.game.isOn = true;
     this.game.reseted = false;
+    this.ms = 0;
     this.interval = setInterval(() => {
       this.moveForward();
       this.ms += this.game.snake.speed;
@@ -81,6 +94,12 @@ export class HomeComponent implements OnInit {
     clearInterval(this.interval);
     this.alert = '';
     this.game.reseted = true;
+    this.game.table = new Table(
+      this.rows,
+      this.cols,
+      this.countOfFoods,
+      this.backgroundColor
+    );
     this.setSnake();
   }
 
@@ -223,5 +242,54 @@ export class HomeComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  changeRowsAndCols(): void {
+    if (this.rows < 10) {
+      this.rows = 10;
+    }
+    if (this.cols < 10) {
+      this.cols = 10;
+    }
+    this.game.table = new Table(
+      this.rows,
+      this.cols,
+      this.countOfFoods,
+      this.backgroundColor
+    );
+    this.setSnake();
+  }
+
+  changeBackgroundColor(): void {
+    const old = this.game.table.background;
+    if (
+      this.backgroundColor.length === 7 &&
+      this.backgroundColor.startsWith('#')
+    ) {
+      this.game.table.background = this.backgroundColor;
+      this.resetGame();
+    } else {
+      this.backgroundColor = old;
+    }
+  }
+
+  changeBodyColor(): void {
+    const old = this.game.snake.bodyColor;
+    if (this.bodyColor.length === 7 && this.bodyColor.startsWith('#')) {
+      this.game.snake.bodyColor = this.bodyColor;
+      this.resetGame();
+    } else {
+      this.bodyColor = old;
+    }
+  }
+
+  changeHeadColor(): void {
+    const old = this.game.snake.headColor;
+    if (this.headColor.length === 7 && this.headColor.startsWith('#')) {
+      this.game.snake.headColor = this.headColor;
+      this.resetGame();
+    } else {
+      this.headColor = old;
+    }
   }
 }

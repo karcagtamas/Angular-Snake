@@ -2,9 +2,13 @@
 
 @import "~bootstrap/dist/css/bootstrap.min.css";
 
+*{
+  font-family: 'Yeon Sung', cursive !important;
+
+}
+
 body {
   margin: 1rem;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 app-root {

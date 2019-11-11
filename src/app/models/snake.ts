@@ -10,18 +10,18 @@ export default class Snake {
   head: Point;
   body: Point[];
 
-  constructor() {
+  constructor(headX: number, headY: number, headColor: string, bodyColor: string) {
     this.length = 5;
-    this.bodyColor = '#ffffff';
-    this.headColor = '#ff0000';
+    this.bodyColor = bodyColor;
+    this.headColor = headColor;
     this.speed = 100;
     this.direction = Direction.UP;
-    this.head = new Point(5, 5);
+    this.head = new Point(headX, headY);
     this.body = [
-      new Point(6, 5),
-      new Point(7, 5),
-      new Point(8, 5),
-      new Point(9, 5)
+      new Point(headX + 1, headY),
+      new Point(headX + 2, headY),
+      new Point(headX + 3, headY),
+      new Point(headX + 4, headY)
     ];
   }
 }

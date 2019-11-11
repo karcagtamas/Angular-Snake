@@ -1,21 +1,93 @@
 <div class="home">
-  <div class="stat">
-    Pontok: {{ game.snake.length }} Idő: {{ ms | seconds }}
-  </div>
-  <div class="buttons">
-    <button (click)="startGame()" [disabled]="!game.reseted">Start</button>
-    <button (click)="resetGame()" [disabled]="game.isOn">Reset</button>
-  </div>
-  <div>{{ alert }}</div>
-  <div class="frame">
-    <div class="table">
-      <div *ngFor="let row of game.table.fields" class="row">
-        <div
-          *ngFor="let col of row"
-          class="border field"
-          [style.background-color]="col.color"
-        ></div>
+  <mat-card>
+    <h1 class="text-center">Snake</h1>
+    <div class="stat rounded">
+      <strong>Points:</strong> {{ game.snake.length }} <strong>Time:</strong>
+      {{ ms | seconds }}
+    </div>
+    <div class="form rounded">
+      <mat-form-field>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="rows"
+          name="rows"
+          placeholder="Rows"
+          (change)="changeRowsAndCols()"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          type="number"
+          [(ngModel)]="cols"
+          name="cols"
+          placeholder="Columns"
+          (change)="changeRowsAndCols()"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          [(ngModel)]="backgroundColor"
+          name="backgroundColor"
+          placeholder="Background color"
+          (change)="changeBackgroundColor()"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          [(ngModel)]="bodyColor"
+          name="bodyColor"
+          placeholder="Snake body color"
+          (change)="changeBodyColor()"
+        />
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          [(ngModel)]="headColor"
+          name="headColor"
+          placeholder="Snake head color"
+          (change)="changeHeadColor()"
+        />
+      </mat-form-field>
+    </div>
+    <div class="buttons">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="startGame()"
+        [disabled]="!game.reseted"
+      >
+        Start
+      </button>
+      <button
+        mat-raised-button
+        color="accent"
+        (click)="resetGame()"
+        [disabled]="game.isOn"
+      >
+        Reset
+      </button>
+    </div>
+    <div class="colors col col-md-12 row">
+      <div class="col col-md-4"><span class="cell" [style.background-color]="foods.normal.color"></span> +1 point</div>
+      <div class="col col-md-4"><span class="cell" [style.background-color]="foods.higher.color"></span> +2 point</div>
+      <div class="col col-md-4"><span class="cell" [style.background-color]="foods.killer.color"></span> death</div>
+    </div>
+    <div>{{ alert }}</div>
+    <div class="frame rounded">
+      <div class="table">
+        <div *ngFor="let row of game.table.fields" class="row">
+          <div
+            *ngFor="let col of row"
+            class="border field"
+            [style.background-color]="col.color"
+          ></div>
+        </div>
       </div>
     </div>
-  </div>
+  </mat-card>
 </div>

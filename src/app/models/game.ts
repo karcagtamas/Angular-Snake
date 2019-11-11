@@ -17,7 +17,7 @@ export default class Game {
     this.seconds = 0;
     this.difficulty = 0;
     this.isOn = false;
-    this.table = new Table();
+    this.table = new Table(10, 10, 5, '#eeebf2');
     this.reseted = true;
   }
 }

@@ -1,7 +1,19 @@
 .home {
   margin: 1rem;
 
+  .form{
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid gray;
+    background-color: rgba(141, 75, 255, 0.034);
+
+    mat-form-field{
+      margin: 0.5rem;
+    }
+  }
+
   .stat {
+    background-color: rgba(141, 75, 255, 0.034);
     margin: 1rem;
     padding: 1rem;
     border: 1px solid gray;
@@ -13,8 +25,26 @@
       margin: 0.5rem;
     }
   }
+
+  .colors{
+    margin: 1rem;
+    div{
+      text-align: center;
+      font-weight: bold;
+      .cell{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        box-shadow: 0 0 2px 1px gray;
+      }
+    }
+  }
+
   .frame {
     border: 2px solid black;
+    margin: 1rem;
+    padding: 1rem;
+    background-color: rgba(141, 75, 255, 0.034);
 
     .table {
       width: max-content;
@@ -26,6 +56,7 @@
       .field {
         width: 20px;
         height: 20px;
+        box-shadow: 0 0 2px 1px gray;
       }
     }
   }

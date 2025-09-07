@@ -6,12 +6,13 @@ import Food from 'src/app/models/food';
 import { Error } from 'src/app/models/error';
 import { FOODS } from 'src/app/models/foodTypes';
 import Point from 'src/app/models/point';
+import { SecondsPipe } from '../../pipes/seconds.pipe';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    standalone: false
+    imports: [SecondsPipe]
 })
 export class HomeComponent implements OnInit {
   game: Game = new Game();

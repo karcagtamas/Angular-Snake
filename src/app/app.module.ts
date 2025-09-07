@@ -7,9 +7,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SecondsPipe } from './pipes/seconds.pipe';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent, SecondsPipe],
-  imports: [BrowserModule, BrowserAnimationsModule],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [AppComponent],
+    imports: [BrowserModule, BrowserAnimationsModule, HomeComponent, SecondsPipe],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
